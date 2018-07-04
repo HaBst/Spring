@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	
+	
+	<import resource="/personContext.xml"/>
+	<import resource="/sampleContext.xml"/>
+	<!-- xml파일 여러 개를 import해서 사용가능하다. -->
+	
+	
+	
+	<!-- 생성자 이용한 객체 생성 -->
+	<bean id="data" class="org.kh.bean.model.vo.TestData"><!-- scope="singleton" 또는 scope="prototype" -->
+		<constructor-arg>
+			<value>100</value>
+		</constructor-arg>
+	</bean>
+	
+	
+	
+	
+	<!-- List<String>에 값 저장하기 -->
+	<bean id="listBean" class="org.kh.bean.model.vo.CollectionBean">
+		<property name="nameList">
+			<list>
+				<value>홍길동</value>
+				<value>고길똥</value>
+				<value>김말똥</value>
+				<value>김지똥</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Set으로 가져오기(중복제거) -->
+	<bean id="listBean2" class="org.kh.bean.model.vo.CollectionBean2">
+		<property name="nameList">
+			<set>
+				<value>홍길동</value>
+				<value>고길똥</value>
+				<value>김말똥</value>
+				<value>김지똥</value>
+				<value>김지똥</value>
+				<value>김지똥</value>
+				<value>김지똥</value>
+				<value>김지똥</value>
+				
+			</set>
+		</property>
+	</bean>
+	
+	<!-- Map으로 가져오기 -->
+	<bean id = "mapBean" class = "org.kh.bean.model.vo.CollectionBean3">
+		<property name="addressMap">
+			<map>
+				<entry>
+					<key><value>홍길동</value></key>
+					<value>경기도 부천</value>
+				</entry>
+				
+				<entry>
+					<key><value>김말똥</value></key>
+					<value>서울시 강서구</value>
+				</entry>
+				
+				<entry>
+					<key><value>고길똥</value></key>
+					<value>인천시 계양구</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+
+	<!-- 어노테이션 -->
+	<bean id = "computer" class = "org.kh.test.ano.Computer">
+	
+	</bean>
+
+</beans>

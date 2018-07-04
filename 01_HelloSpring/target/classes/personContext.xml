@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+
+
+<!-- 객체 생성 (Setter) -->
+<bean id="person1" class="org.kh.person.model.vo.Person">
+	<property name="name" value="김지은" />
+	<property name="age"><value>25</value></property> <!-- 태그 안의 value 값은 String만 가능하기 때문에 따로 value 태그를 빼서 사용해도 괜찮당 -->
+	<property name="addr" value="인천시 서구" />
+</bean>
+
+<bean id="pMgr" class="org.kh.person.model.vo.PersonMgr">
+	<property name="ps" ref="person1" />
+</bean>
+
+
+
+<!-- 객체 생성 (생성자) -->
+<bean id="person2" class="org.kh.person.model.vo.Person">
+	<constructor-arg value="김지은2" />
+	<constructor-arg><value>25</value></constructor-arg>
+	<constructor-arg value="인천시 서구2" />
+</bean>
+
+<bean id="pMgr2" class="org.kh.person.model.vo.PersonMgr">
+	<constructor-arg ref="person2" />
+</bean>
+
+
+
+
+
+
+</beans>
