@@ -61,14 +61,18 @@ public class DispatcherServlet extends HttpServlet {
 		
 		//4. 컨트로러에서 리턴한 viewName을 가지고 ViewResolver를 통해 view를 검색
 		String view = null;
+		
+		//ex) loginSuccess 가 왔다면? -> jsp로 보냄
+		//ex) boardList.do 가 왔다면? -> controller를 한번 더 사용
+		
 		if(!viewName.contains(".do")) {
-			view = viewResolver.getView(viewName); //.do를 포함하고 있지않다면 jsp로
+			view = viewResolver.getView(viewName); //.do를 포함하고 있지않다면 viewResolver를 거쳐서 jsp로 보냄
 		}else {
 			view = viewName; //.do를 포함하고있다면 그대로 페이지 요청
 		}
 		
 		//5. 검색한 화면으로 이동
-		
+		response.sendRedirect(view);
 		
 	}
 

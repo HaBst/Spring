@@ -4,14 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>메인 페이지</title>
+<title>Insert title here</title>
 </head>
 <body>
-<form action = "/login.do" method = "post">
-ID : <input type = "text" name = "userId"/><br>
-PW : <input type = "password" name = "userPw"/><br>
-<input type = "submit" value = "로그인"/>
-</form>
-
+<H1>로그인을 실패하였습니다.</H1>
 </body>
 </html>

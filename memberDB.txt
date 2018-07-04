@@ -1,0 +1,12 @@
+create table member(
+    user_id varchar2(20) primary key,
+    user_pw varchar2(20) not null,
+    user_name varchar2(20) not null,
+    user_phone varchar2(20) unique
+);
+
+insert into member values('test1','1234','ев╫╨ем1','01011112222');
+
+select * from member;
+
+commit;

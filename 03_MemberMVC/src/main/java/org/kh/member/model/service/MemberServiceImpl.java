@@ -1,19 +1,26 @@
-package org.kh.member.service;
+package org.kh.member.model.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.kh.member.dao.MemberDAO;
-import org.kh.member.vo.Member;
+import javax.annotation.Resource;
 
-public class MemberService {
+import org.kh.member.model.dao.MemberDAOImpl;
+import org.kh.member.model.vo.Member;
+import org.springframework.stereotype.Service;
 
-	public Member seleceOneMember(Member vo) {
+@Service("memberService")
+public class MemberServiceImpl implements MemberService{
+
+	@Resource(name = "memberDAO")
+	private MemberDAOImpl memberDAO;
+	
+	
+	@Override
+	public Member selectOneMember(Member vo) {
 		Connection conn = getConnection();
-		System.out.println(conn);
-		
-		Member m = new MemberDAO().selectOneMember(conn,vo);
+		Member m = memberDAO.selectOneMember(conn,vo);
 		
 		try {
 			conn.close();
@@ -21,11 +28,9 @@ public class MemberService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return m;
 	}
-	
-	
-	
 	
 	public Connection getConnection() {
 		Connection conn = null;
@@ -42,4 +47,5 @@ public class MemberService {
 		}
 		return conn;
 	}
+
 }

@@ -4,14 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>메인 페이지</title>
+<title>메인페이지</title>
 </head>
 <body>
 <form action = "/login.do" method = "post">
-ID : <input type = "text" name = "userId"/><br>
+ID : <input type ="text" name = "userId"/><br>
 PW : <input type = "password" name = "userPw"/><br>
 <input type = "submit" value = "로그인"/>
 </form>
-
 </body>
 </html>
