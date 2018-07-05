@@ -1,5 +1,7 @@
 package org.kh.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller // 컨트롤러만 명시하는 전용 어노테이션
@@ -63,13 +66,112 @@ public class MemberControllerImpl implements MemberController{
 		
 	}
 	
-	
-	
-	
+
 	@RequestMapping(value = "/enroll.do")
-	public String insertMember() {
+	public String insertMember(Member m) {
 		
-		return null;
+		int result = memberService.insertMember(m);
+		
+		if(result > 0) {
+			return "member/enrollSuccess";
+		}else {
+			return "member/enrollFail";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/logout.do")
+	public String logoutMember(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		
+		if(session != null) {
+			session.invalidate();
+			return "redirect:/index.jsp"; // servlet-context.xml의 viewResolver를 관여하지 않겠다
+		}else {
+			return "member/logoutFail";
+		}
+
+	}
+	
+	@RequestMapping(value = "/myInfo.do")
+	public Object myInfo(HttpSession session) {
+		//1. 값추출
+		Member vo = (Member)session.getAttribute("member");
+		//2. 비즈니스로직 처리
+		Member m = memberService.selectOneMember(vo);
+		
+		ModelAndView view = new ModelAndView();
+		if(m != null) {
+
+			view.addObject("mem",m);
+			view.setViewName("member/myPage");
+			return view;
+		}else {
+			view.setViewName("member/pageLoadFail");
+			return view;
+		}
+	}
+	
+	@RequestMapping(value = "/mUpdate.do")
+	public String memberUpdate(Member vo,HttpSession session) {
+		// input type의 name값이 Member필드의 변수와 같다면 자동적으로 들어간다
+//		User us = new User();
+		System.out.println("voId"+vo.getUserId());
+		System.out.println("voPw"+vo.getUserPw());
+		System.out.println("voName"+vo.getUserName());
+		System.out.println("voPhone"+vo.getUserPhone());
+		int result = memberService.updateMember(vo);
+
+		if(result > 0) {
+			session.setAttribute("memer", vo);
+//			return "redirect:/myInfo.do";
+			return "member/mUpdateSuccess";
+		}else {
+//			return "redirect:/myInfo.do";
+			return "member/mUpdateFail";
+		}
+	}
+	@RequestMapping(value = "/enrollPage.do")
+	public String enrollPage() {
+		
+		return "member/enroll";
+	}
+	
+	@RequestMapping(value = "/delete.do")
+	public String deleteMember(HttpSession session) {
+		String userId = ((Member)session.getAttribute("member")).getUserId();
+		int result = memberService.deleteMember(userId);
+		
+		if(result>0) {
+			session.invalidate();
+			return "member/deleteSuccess";
+		}else {
+			return "member/deleteFail";
+		}
+	}
+	
+	@RequestMapping(value = "/memberList.do")
+	public Object memberList() {
+		
+		ArrayList<Member> list = memberService.memberList();
+		
+		ModelAndView view = new ModelAndView();
+		if(!list.isEmpty()) {
+			view.addObject("memberList",list);
+			view.setViewName("member/memberList");
+			return view;
+		}else {
+			view.setViewName("member/memberListFail");
+			return view;
+		}
+
+		
+
+	}
+	
+	@RequestMapping(value = "/home.do")
+	public String home() {
+		return "redirect:/index.jsp";
 	}
 
 }

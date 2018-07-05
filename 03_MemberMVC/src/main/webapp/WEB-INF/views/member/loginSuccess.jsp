@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>로그인 성공</title>
 </head>
 <body>
-<H1>로그인을 성공 하셨습니다.</H1>
+<script>
+	alert("로그인 성공");
+	location.href = "/index.jsp";
+</script>
 </body>
 </html>
