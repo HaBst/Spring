@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- LogAdvice Bean 객체 생성 -->
+	 
+	<!-- <bean id = "log" class = "org.kh.member.common.LogAdvice"/> -->
+	<bean id = "log" class = "org.kh.member.common.LogAdvice"/>
+	
+	<!-- AOP 등록 및 설정 --><!-- false = JDK Dynamic Froxy  True = CG-lib -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="allPointcut" expression="execution(* org.kh.member.model.service.*ServiceImpl.*(..))"/><!-- 모든 과정 -->
+		
+		<aop:pointcut id="transactionPointcut" 
+		expression="execution(int org.kh.member.model.service.*ServiceImpl.*(..))" /><!-- 반환형이 int인 회원가입 회원탈퇴 회원수정 -->
+		<!-- 
+		<aop:pointcut id="transactionPointcut" 
+		expression="execution(int org.kh.member.model.service.*ServiceImpl.*Member(org.kh.member.model.vo.Member))" />
+		-->
+		<!-- 반환형이 int이고 Member로 끝나는 메소드, 매개변수를 Member형을 받는 회원가입 회원탈퇴 회원수정 -->
+		 
+		
+		
+		<aop:aspect ref="log"><!-- 첫번째 * 는 리턴 데이터 타입 , ServiceImpl로 끝나는 클래스의 모든 메소드, (..)-> 매개변수-->
+			<!-- <aop:before pointcut-ref = "allPointcut" method="printLog"/> -->
+			<!-- <aop:before pointcut-ref = "allPointcut" method="printLog"/> --><!-- 과정 수행 전 -->
+			<aop:around pointcut-ref = "allPointcut" method="aroundLog"/>
+			<aop:after pointcut-ref = "transactionPointcut" method="printTransactionLog"/><!-- 과정 수행 후 -->
+		</aop:aspect>
+	</aop:config>
+
+
+
+
+</beans>
